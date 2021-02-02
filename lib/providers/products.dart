@@ -38,8 +38,6 @@ class Products with ChangeNotifier {
     ),
   ];
 
-  var _showFavoritesOnly = false;
-
   List<Product> get items {
     return [..._items];
   }

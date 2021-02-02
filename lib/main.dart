@@ -25,7 +25,7 @@ class MyApp extends StatelessWidget {
         theme: ThemeData(
           backgroundColor: Colors.black54,
           primarySwatch: Colors.deepPurple,
-          accentColor: Colors.lightGreenAccent,
+          accentColor: Colors.greenAccent,
           fontFamily: 'Lato',
         ),
         home: ProductsOverviewScreen(),
