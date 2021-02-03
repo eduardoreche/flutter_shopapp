@@ -50,6 +50,13 @@ class Products with ChangeNotifier {
     return _items.firstWhere((product) => product.id == id);
   }
 
+  void updateProduct(Product product) {
+    final index = _items.indexWhere((item) => item.id == product.id);
+    _items[index] = product;
+
+    notifyListeners();
+  }
+
   void addProduct(Product product) {
     final newProduct = Product(
       id: DateTime.now().toString(),
