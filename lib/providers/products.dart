@@ -57,6 +57,11 @@ class Products with ChangeNotifier {
     notifyListeners();
   }
 
+  void deleteProduct(String id) {
+    _items.removeWhere((element) => element.id == id);
+    notifyListeners();
+  }
+
   void addProduct(Product product) {
     final newProduct = Product(
       id: DateTime.now().toString(),
