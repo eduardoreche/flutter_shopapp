@@ -79,30 +79,29 @@ class _EditProductScreenState extends State<EditProductScreen> {
 
     _toggleIsLoading();
 
-    var provider = Provider.of<Products>(context, listen: false);
-    if (_edittedProduct.id == null) {
-      try {
+    try {
+      var provider = Provider.of<Products>(context, listen: false);
+      if (_edittedProduct.id == null) {
         await provider.addProduct(_edittedProduct);
-      } catch (error) {
-        await showDialog(
-          context: context,
-          builder: (ctx) => AlertDialog(
-            title: Text('An error occurred'),
-            content: Text('Something went wrong!!'),
-            actions: [
-              FlatButton(
-                onPressed: () => Navigator.of(ctx).pop(),
-                child: Text('Okay'),
-              ),
-            ],
-          ),
-        );
-      } finally {
-        _toggleIsLoading();
-        Navigator.of(context).pop();
+      } else {
+        await provider.updateProduct(_edittedProduct);
       }
-    } else {
-      provider.updateProduct(_edittedProduct);
+    } catch (error) {
+      await showDialog(
+        context: context,
+        builder: (ctx) => AlertDialog(
+          title: Text('An error occurred'),
+          content: Text('Something went wrong!!'),
+          actions: [
+            FlatButton(
+              onPressed: () => Navigator.of(ctx).pop(),
+              child: Text('Okay'),
+            ),
+          ],
+        ),
+      );
+    } finally {
+      _toggleIsLoading();
       Navigator.of(context).pop();
     }
   }

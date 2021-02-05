@@ -5,8 +5,8 @@ import 'package:http/http.dart' as http;
 import './product.dart';
 
 class Products with ChangeNotifier {
-  final url =
-      'https://flutter-shop-app-fbe29-default-rtdb.firebaseio.com/products.json';
+  final apiUrl =
+      'https://flutter-shop-app-fbe29-default-rtdb.firebaseio.com/products';
 
   List<Product> _items = [];
 
@@ -22,8 +22,19 @@ class Products with ChangeNotifier {
     return _items.firstWhere((product) => product.id == id);
   }
 
-  void updateProduct(Product product) {
+  Future<void> updateProduct(Product product) async {
     final index = _items.indexWhere((item) => item.id == product.id);
+
+    await http.patch(
+      '$apiUrl/${product.id}.json',
+      body: json.encode({
+        'title': product.title,
+        'description': product.description,
+        'price': product.price,
+        'imageUrl': product.imageUrl,
+      }),
+    );
+
     _items[index] = product;
 
     notifyListeners();
@@ -36,7 +47,7 @@ class Products with ChangeNotifier {
 
   Future<void> fetchAndSetProducts() async {
     try {
-      final response = await http.get(url);
+      final response = await http.get('$apiUrl.json');
       final extractedData = json.decode(response.body) as Map<String, dynamic>;
       final List<Product> loadedProducts = [];
       extractedData.forEach((key, value) {
@@ -61,7 +72,7 @@ class Products with ChangeNotifier {
   Future<void> addProduct(Product product) async {
     try {
       var response = await http.post(
-        url,
+        '$apiUrl.json',
         headers: {},
         body: json.encode(
           {
