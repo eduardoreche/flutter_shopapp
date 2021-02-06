@@ -27,7 +27,7 @@ class Products with ChangeNotifier {
     final index = _items.indexWhere((item) => item.id == product.id);
 
     await http.patch(
-      '$apiUrl/${product.id}',
+      '$apiUrl/${product.id}.json',
       body: json.encode({
         'title': product.title,
         'description': product.description,
@@ -48,7 +48,7 @@ class Products with ChangeNotifier {
     _items.removeAt(index);
     notifyListeners();
 
-    final response = await http.delete('$apiUrl/$id');
+    final response = await http.delete('$apiUrl/$id.json');
 
     if (response.statusCode >= 400) {
       _items.insert(index, existingProduct);
